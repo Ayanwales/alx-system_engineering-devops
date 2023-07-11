@@ -1,0 +1,27 @@
+#/usr/bin/env bash
+#configuring web-o1 to have an http response header
+
+#update packages
+sudo apt-get update
+sudo apt-get install -y nginx
+
+#creating index page
+echo"Hello world" | sudo tee /var/www/html/index.html
+
+
+#performing a redirection
+new_string="server_name _:\n\trewrite ^\/redirect_me https:\/\/github.com\/Ayanwales:"
+
+sudo sed -i "s/server_name _:/$new_string/" /etc/nginx/sites-enabled/default
+
+#creating a custom page
+echo "error 404" | sudo tee /var/www/html/404.html
+
+#custom Http response header
+sudo sed -i "server_name _:/a add_header X-Served-By $HOSTNAME:" /etc/nginx/sites-enabled/default
+
+#test for syntax error
+sudo nginx -t
+
+# restart nginx
+sudo service nginx restart
