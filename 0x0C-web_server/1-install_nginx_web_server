@@ -2,5 +2,7 @@
 #install Nginx
 sudo apt-get update
 sudo apt-get install -y nginx
-echo "Holberton School for the win!" | sudo tee /var/www/html/index.html
-sudo service nginx start
+sudo ufw "Nginx HTTP"
+echo "Hello world!" | sudo tee /var/www/html/index.html
+sudo nginx -t
+sudo service nginx reload
