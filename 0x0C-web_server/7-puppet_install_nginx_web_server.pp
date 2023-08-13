@@ -1,5 +1,21 @@
-#configurate an nginx server
-exec {'confiser':
-  provider => shell,
-  command  => 'sudo apt-get update && sudo apt-get install -y nginx && echo "Hello world!" | sudo tee /var/www/html/index.html && sudo chmod -R 777 /etc/nginx && sudo sed -i "/server_name _;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default && sudo service nginx restart',
+#Trying to  configure project requirements using Puppet
+
+package { 'nginx':
+  ensure => installed,
+}
+
+file_line { 'install':
+  ensure => 'present',
+  path   => '/etc/nginx/sites-enabled/default',
+  after  => 'listen 80 default_server;',
+  line   => 'rewrite ^/redirect_me https://www.github.com/Ayanwales permanent;',
+}
+
+file { '/var/www/html/index.html':
+  content => 'Hello World!',
+}
+
+service { 'nginx':
+  ensure  => running,
+  require => Package['nginx'],
 }
