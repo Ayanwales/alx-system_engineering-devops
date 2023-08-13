@@ -1,6 +1,7 @@
 #/usr/bin/env bash
 #configuring web-o1 to have an http response header
 
+
 #update packages
 sudo apt-get update
 sudo apt-get install -y nginx
